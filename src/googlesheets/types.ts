@@ -3,3 +3,8 @@ export interface DataInterface {
     step: string;
     amount: string;
 };
+
+export interface DataErrorInterface {
+    article: string;
+    step: string;
+}

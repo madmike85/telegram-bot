@@ -6,6 +6,7 @@ import { DataInterface } from './types';
 
 export class GoogleSheetsService {
     doc: Promise<GoogleSpreadsheet>;
+    articles: string[] = [];
 
     constructor(private readonly configService: IConfigService) {
         const serviceAccountAuth = new JWT({
@@ -15,6 +16,18 @@ export class GoogleSheetsService {
         });
 
         this.doc = this.connect(serviceAccountAuth);
+        this.getArticles();
+    }
+
+    private async getArticles(): Promise<void> {
+        const doc = await this.doc;
+        const sheet = doc.sheetsByTitle['Articles'];
+        const rows = await sheet.getRows();
+
+        this.articles = rows.map((row) => {
+            const article = row.get('Артикул');
+            return article;
+        });
     }
 
     private async connect(serviceAccountAuth: JWT): Promise<GoogleSpreadsheet> {
@@ -25,6 +38,11 @@ export class GoogleSheetsService {
 
         await doc.loadInfo();
         return doc;
+    }
+
+    public getFullArticle(shortArticle: string): string[] {
+        const result = this.articles.filter((article) => article.includes(shortArticle));
+        return result;
     }
 
     public async setToWarehouse(data: DataInterface[]): Promise<boolean> {
