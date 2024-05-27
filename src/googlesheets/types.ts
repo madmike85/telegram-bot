@@ -8,3 +8,9 @@ export interface DataErrorInterface {
     article: string;
     step: string;
 }
+
+export interface DataSuggestionsInterface {
+    articleSuggestions: string[];
+    step: string,
+    amount: string,
+}

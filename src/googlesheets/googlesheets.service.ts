@@ -50,21 +50,18 @@ export class GoogleSheetsService {
         const sheet = doc.sheetsByTitle['Производство'];
         const date = getToday();
         const rows: {'Дата': string, 'Артикул': string, 'Этап': string, 'Кол-во': string}[] = [];
+
         data.forEach((item) => {
             rows.push({
                 'Дата': date,
                 'Артикул': item.article,
-                'Этап': item.step,
+                'Этап': `${item.step[0].toUpperCase()}${item.step.substring(1)}`,
                 'Кол-во': item.amount,
             });
         });
+        
         await sheet.addRows(rows);
-        // await sheet.addRow({
-        //     'Дата': date,
-        //     'Артикул': article,
-        //     'Этап': step,
-        //     'Кол-во': amount
-        // });
+
         return true;
         // const sheet = doc.sheetsByIndex[0];
         // const rows = await sheet.getRows();
