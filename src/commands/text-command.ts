@@ -35,15 +35,6 @@ export class TextCommand extends Command {
             console.log(text);
             const isBotTagged = text.includes(`@${ctx.botInfo.username}`);
 
-            if (text === 'text') {
-                const numbers = ['BM001/24/H/40x50', 'BM002/24/V/50x40'];
-                const buttons = numbers.map((item) => [Markup.button.callback(`${item}`, `set_article_${item}-напечатано-4000`)]);
-                ctx.reply(
-                    'Нашел несколько похожих позиций, выберите нужный',
-                    Markup.inlineKeyboard(buttons),
-                );
-            }
-
             if (!isBotTagged) {
                 return;
             }
